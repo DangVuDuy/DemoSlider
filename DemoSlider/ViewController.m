@@ -8,20 +8,31 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
-
+@interface ViewController () {
+    NSTimer* _timer;
+    __weak IBOutlet UISlider *slider;
+}
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                              target:self
+                                            selector:@selector(onTimer)
+                                            userInfo:nil
+                                             repeats:true];
+    slider.transform = CGAffineTransformMakeRotation(-M_PI_4);
+    slider.tintColor = [UIColor blueColor];
+    slider.thumbTintColor = [UIColor redColor];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)onTimer {
+    slider.value += 0.05;
+    if (slider.value >= 1.0) {
+        slider.value = 1.0;
+        [_timer invalidate];
+    }
 }
 
 @end
